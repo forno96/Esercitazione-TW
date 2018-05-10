@@ -1,0 +1,85 @@
+<html>
+   <head>
+     <style>
+       body{font-family: arial;}
+
+       .border{
+         border: thin double black;
+         width:80%;
+         /*padding:10px;*/
+         height: 600px;
+       }
+
+       .L{float: left;width: 24%;}
+       .R{float: right;width: 75%;}
+
+       li:nth-child(3){background: #ededed;}
+
+       .bold{font-weight: bold;}
+       .ita{font-style: italic;}
+
+       .logotext{height: 258px;}
+       .margL{margin-left: 1%;}
+       .frametext{
+         padding: 10px;
+         background-color: #ededed;
+         width: 70%;
+         margin-top: 10px;
+       }
+     </style>
+   </head>
+   <body>
+
+      <div class="border L">
+        <ol>
+          <li><a href="./">Debian Linux</a></li>
+          <li><a href="./">Debian Red Hat</a></li>
+          <li><a href="./">Mac OS X</a></li>
+          <li><a href="./">Windows XP</a></li>
+        </ol>
+      </div>
+
+      <div class="border R">
+        <div class="L margL">
+          <div class="bold">Name:</div>
+          <div class="bold">Software house:</div>
+          <div class="bold logotext">Logo:</div>
+          <div class="bold">Comments:</div>
+        </div>
+
+        <div class="R">
+          <div>Mac OS X</div>
+          <div>Apple</div>
+          <div><img src="./logo.jpg" alt="Mac OSX"></div>
+          <div class="frametext">
+            <form action="/os.php">
+              <p>Do you use <span class="bold ita">Mac OSX?</span>
+                <label>Yes</label>
+                <input type="radio" name="use" value="yes">
+                <label>No</label>
+                <input type="radio" name="use" value="no">
+              </p>
+              <p>
+                If yes, what for?
+                <select name="for">
+                  <option value="---">---</option>
+                  <option value="prs">Personal</option>
+                  <option value="bsn">Buisness</option>
+                  <option value="shl">School</option>
+                </select>
+              </p>
+              <p>
+                If no, briefly explain why:
+                <textarea rows="3" cols="18" name="commento"> </textarea>
+              </p>
+              <p>
+                <input type="submit" value="Submit" name="submit"/>
+                <input type="reset" value="Reset" name="annulla"/>
+              </p>
+            </form>
+          </div>
+
+        </div>
+      </div>
+   </body>
+</html>
