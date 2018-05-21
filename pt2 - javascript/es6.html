@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Prove Javascript</title>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript">
+    class Automobile {
+      constructor(mod, url, price) {
+        this.modello = mod;
+        this.fotografia = url;
+        this.prezzo = price;
+        this.codice = '';
+      }
+      set wCode(newCode) {
+        this.codice = newCode;
+      }
+      get rCode() {
+        return (this.codice);
+      }
+      mostra() {
+        return ('<tr><td>' + this.modello + '</td><td><img src="' + this.fotografia + '" class="img-fluid" alt="Responsive image"></td><td>' + this.prezzo + '</td></tr>');
+      }
+    }
+
+    class Cliente {
+      constructor(nome) {
+        this.nome = nome;
+        this.possesso;
+      }
+      mostra() {
+        var view = '<h5 class="card-title">' + this.nome + '</h5>'
+        if (this.possesso != null) {
+          '<table class="table">' +
+          '<thead> <tr> <th>Modello</th><th>Foto</th><th>Prezzo</th> </tr> </thead>' +
+          '<tbody>' + this.possesso + '</tbody>' +
+            '</table>'
+        }
+        return (view);
+      }
+      noleggia(codice) {
+        if (this.possesso == null) {
+          this.possesso = noleggio.noleggia(codice);
+        } else {
+          alert("Possiede già un'auto");
+        }
+        refresh();
+      }
+      restituisci() {
+        if (this.possesso != null) {
+          noleggio.restituisci(this.possesso);
+          this.possesso = null;
+        } else {
+          alert('Non possiede auto');
+        }
+        refresh();
+      }
+    }
+
+    class Autonoleggio {
+      constructor() {
+        this.parcoMacchine = [];
+        this.parcoClienti = [];
+      }
+      mostraAuto() {
+        var vista = '<table class="table"><thead><tr><th>Modello</th>' +
+          '<th>Foto</th><th>Prezzo</th></tr></thead><tbody>'
+        for (var i = 0; i < this.parcoMacchine.length; i++) {
+          vista += this.parcoMacchine[i].mostra()
+        }
+        vista += '</tbody></table>';
+        document.getElementById("parkAuto").innerHTML = vista;
+      }
+      mostraClienti() {
+        var vista = '';
+        for (var i = 0; i < this.parcoClienti.length; i++) {
+          vista += '<div class="card text-center"><div class="card-body p-0 p-sm-2 p-md-3">' + this.parcoClienti[i].mostra();
+          if (this.parcoClienti[i].possesso == null) { //Caso di Cliente senza possesso e quindi con modale per selezione automobile
+            vista += '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCarRet' + i + '">Noleggia</button>' +
+              '<div class="modal fade" id="modalCarRet' + i + '" tabindex="-1" role="dialog" aria-labelledby="modalCarRet' + i + '" aria-hidden="true">' +
+              '<div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header">' +
+              '<h5 class="modal-title" id="modalCarRetTitle">Noleggia Auto</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+              '<span aria-hidden="true">&times;</span></button></div><div class="modal-body text-left">'
+            if (this.parcoMacchine.length > 0) { //Caso con auto a disposizione
+              for (var e = 0; e < this.parcoMacchine.length; e++) { //Parte di codice che genera la lista di auto noleggiabili
+                vista += '<div class="row"><div class="col-9"><table class="table"><tbody>' + this.parcoMacchine[e].mostra() +
+                  '</tbody></table></div><div class="col-3">' +
+                  '<button type="button" class="btn btn-primary" onclick="noleggio.parcoClienti[' + i + '].noleggia(\'' + this.parcoMacchine[e].rCode +
+                  '\')" data-dismiss="modal">Noleggia</button></div></div>'
+              }
+            } else { //Caso senza auto a disposizione
+              vista += '<h3>Non ci sono auto disponibili</h3>'
+            }
+            vista += '</div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>' +
+              '</div></div></div></div></div></div>'
+          } else { //Caso di Cliente con possesso e bottone per restituire automobile
+            vista += '' +
+              '<div class="col p-0">' +
+              '<table class="table"><thead><tr><th>Modello</th><th>Foto</th><th>Prezzo</th></tr>' +
+              '</thead><tbody>' + this.parcoClienti[i].possesso.mostra() + '</tbody></table>' +
+              '<button type="button" class="btn btn-primary" onclick="noleggio.parcoClienti[' + i + '].restituisci()">Restituisci</button></div></div>' +
+              '</div>'
+          }
+        }
+        if (this.parcoClienti.length == 0) { //Caso senza clienti
+          vista += '<div class="card text-center col-12"><div class="card-body"><p>Non ci sono clienti</p></div></div>'
+        }
+        document.getElementById("parkClienti").innerHTML = vista;
+      }
+      acquista(Automobile) {
+        Automobile.wCode = makeId();
+        this.parcoMacchine[this.parcoMacchine.length] = Automobile;
+      }
+      accogli(Cliente) {
+        this.parcoClienti[this.parcoClienti.length] = Cliente;
+      }
+      noleggia(codice) {
+        var e = 0;
+        for (var i = 0; i < this.parcoMacchine.length; i++) {
+          if (this.parcoMacchine[i].rCode == codice) {
+            var ret = this.parcoMacchine.splice(i, 1).pop();
+            e = 1;
+          }
+        }
+        if (e == 0) {
+          alert("Non è stata trovata nessun'auto con quel codice");
+        }
+        refresh();
+        return (ret);
+      }
+      restituisci(Automobile) {
+        if (Automobile != null) {
+          this.parcoMacchine.push(Automobile);
+          refresh();
+        }
+      }
+    }
+
+    const noleggio = new Autonoleggio();
+    Object.freeze(noleggio);
+
+    function makeId() {
+      function tmpCode() {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for (var i = 0; i < 5; i++) {
+          text += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+        return text;
+      }
+
+      var codice;
+      var e = 0;
+      do {
+        codice = tmpCode();
+        for (var i = 0; i < noleggio.parcoMacchine.length; i++) {
+          if (noleggio.parcoMacchine[i].rCode == codice) {
+            var e = 1;
+          }
+        }
+      } while (e == 1);
+      return (codice);
+    }
+
+    function refresh() {
+      noleggio.mostraAuto();
+      noleggio.mostraClienti();
+    }
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row pt-2">
+      <div class="col-12 text-center">
+        <!--Bottoni-->
+        <button type="button" class="btn btn-outline-dark mt-1" data-toggle="modal" data-target="#modalCar">Acquista Auto</button>
+        <div class="modal fade text-left" id="modalCar" tabindex="-1" role="dialog" aria-labelledby="modalCarLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalCarLabel">Aggiungi auto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="#" id="formCar">
+                  <div class="form-group">
+                    <label for="InputMod">Modello</label>
+                    <input type="text" class="form-control" id="InputMod" placeholder="Inserisci Modello">
+                  </div>
+                  <div class="form-group">
+                    <label for="InputPh">Url foto</label>
+                    <input type="url" class="form-control" id="InputPh" placeholder="Inserisci Url Foto">
+                  </div>
+                  <div class="form-group">
+                    <label for="InputPrice">Prezzo</label>
+                    <input type="number" class="form-control" id="InputPrice" placeholder="Inserisci Prezzo">
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+                <button type="submit" form="formCar" class="btn btn-primary" onclick="noleggio.acquista(new Automobile(document.getElementById('InputMod').value, document.getElementById('InputPh').value, document.getElementById('InputPrice').value)); refresh();" data-dismiss="modal">Aggiungi</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-outline-dark mt-1" data-toggle="modal" data-target="#modalUsr">Accogli Cliente</button>
+        <div class="modal fade text-right" id="modalUsr" tabindex="-1" role="dialog" aria-labelledby="modalUsrLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalUsrLabel">Aggiungi cliente</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="#" id="formUsr">
+                  <div class="form-group">
+                    <label for="InputUsr">Nome Cliente</label>
+                    <input type="text" class="form-control" id="InputUsr" placeholder="Inserisci Cliente">
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+                <button type="submit" form="formUsr" class="btn btn-primary" onclick="noleggio.accogli(new Cliente(document.getElementById('InputUsr').value)); refresh();" data-dismiss="modal">Aggiungi</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 p-2" id="parkAuto"></div>
+      <div class="col-6 p-2" id="parkClienti"></div>
+    </div>
+  </div>
+</body>
+
+</html>

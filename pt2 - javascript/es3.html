@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Prove Javascript</title>
+  <script type="text/javascript">
+  function funzione(){
+    var a = parseInt(document.getElementById("a").value);
+    var b = parseInt(document.getElementById("b").value);
+    console.log(a);
+    console.log(b);
+    if ((b != null)&(a != null)) {
+        var sum = a + b;
+        document.getElementById("para1").innerHTML = 'La somma fa ' + sum;
+    }
+  }
+  </script>
+</head>
+
+<body>
+  <h1>Prove Javascript</h1>
+  <p id="para1">Un paragrafo di prova.</p>
+  Primo numero: <input type="number" id="a"><br>
+  Secondo numero: <input type="number" id="b"><br>
+  <button type="button" onclick="funzione()">Clicca qui</button>
+  </body>
+
+</html>

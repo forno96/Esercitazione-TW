@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Prove Javascript</title>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript">
+    var automobili = [];
+    function addCar(mod, url, price){
+      automobili[automobili.length] = new Automobile(mod, url, price);
+    }
+
+    class Automobile {
+      constructor(mod, url, price){
+        this.modello = mod;
+        this.fotografia = url;
+        this.prezzo = price;
+        this.codice ='';
+      }
+
+      set wCode(newCode){this.codice = newCode;}
+      get rCode(){return(this.codice);}
+
+      mostra() {
+        return ('<tr>' +
+          '<td>' + this.modello + '</td>' +
+          '<td><img src="' + this.fotografia + '" class="img-fluid" alt="Responsive image"></td>' +
+          '<td>' + this.prezzo + '</td>' +
+          '</tr>');
+      }
+    }
+
+    function view(){
+      var vista = '' +
+      '<table class="table">' +
+        '<thead>' +
+          '<tr>' +
+            '<th>Modello</th>' +
+            '<th>Foto</th>' +
+            '<th>Prezzo</th>' +
+          '</tr>' +
+        '</thead>' +
+        '<tbody>'
+          for (var i = 0; i < automobili.length; i++) {
+            vista += automobili[i].mostra();
+          }
+        vista += '</tbody>' +
+      '</table>';
+      document.getElementById("stato").innerHTML = vista;
+    }
+  </script>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="row pt-2">
+      <div class="col-4 col-md-3 col-lg-2">
+
+        <button type="button" class="btn btn-outline-dark mt-1" data-toggle="modal" data-target="#modalCar">Crea automobile</button>
+        <div class="modal fade" id="modalCar" tabindex="-1" role="dialog" aria-labelledby="modalCarLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalCarLabel">Aggiungi auto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="#" id="formCar">
+                  <div class="form-group">
+                    <label for="InputMod">Modello</label>
+                    <input type="text" class="form-control" id="InputMod" placeholder="Inserisci Modello">
+                  </div>
+                  <div class="form-group">
+                    <label for="InputPh">Url foto</label>
+                    <input type="url" class="form-control" id="InputPh" placeholder="Inserisci Url Foto">
+                  </div>
+                  <div class="form-group">
+                    <label for="InputPrice">Prezzo</label>
+                    <input type="number" class="form-control" id="InputPrice" placeholder="Inserisci Prezzo">
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" form="formCar" class="btn btn-primary" onclick="addCar(document.getElementById('InputMod').value ,document.getElementById('InputPh').value ,document.getElementById('InputPrice').value);" data-dismiss="modal">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-outline-dark mt-1" onclick="view()">Mostra Stato</button>
+      </div>
+      <div class="col-8 col-md-9 col-lg-10" id="stato"></div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Prove Javascript</title>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript">
+    function funzione() {
+      $.getJSON("http://site1825.tw.cs.unibo.it/auto.json", function(data) {
+        var table = '<table class="table">' +
+          '<thead>' +
+            '<tr>' +
+              '<th>Modello</th>' +
+              '<th>Foto</th>' +
+              '<th>Prezzo</th>' +
+            '</tr>' +
+          '</thead>' +
+          '<tbody>';
+            for (var i = 0; i < data.length; i++) {
+              table += '<tr>' +
+                '<td>' + data[i].modello + '</td>' +
+                '<td><img src="' + data[i].foto + '" class="img-fluid" alt="Responsive image"></td>' +
+                '<td>' + data[i].prezzo + '</td>' +
+              '</tr>'
+            }
+          table += '</tbody>' +
+        '</table>';
+        $(".tabella").append(table);
+      });
+    }
+  </script>
+</head>
+
+<body onLoad="funzione()">
+  <div class="tabella"></div>
+</body>
+
+</html>
