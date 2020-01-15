@@ -1,7 +1,7 @@
 # Esercitazione-TW
 Esercitazione fatta per il corso di Tecnologie Web anno 17/18 dell'Università di Bologna tenuto da Fabio Vitali.
 
-[JAVASCRIPT:](https://forno96.github.io/Esercitazione-TW/pt1%20-%20html/esHTML.pdf)
+[JAVASCRIPT:](https://forno96.github.io/Esercitazione-TW/pt2%20-%20javascript/esJS1234.pdf)
 
 [es1](https://forno96.github.io/Esercitazione-TW/pt2%20-%20javascript/es1.html)
 [es2](https://forno96.github.io/Esercitazione-TW/pt2%20-%20javascript/es2.html)
